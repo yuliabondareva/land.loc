@@ -15,7 +15,7 @@
               </li>
 
               <li>
-                <a href="{{route('portfolio')}}">
+                <a href="{{route('portfolios')}}">
                   <h5>Портфолио</h5>
                 </a>
               </li>
