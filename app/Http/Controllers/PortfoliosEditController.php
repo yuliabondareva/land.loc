@@ -57,7 +57,7 @@ class PortfoliosEditController extends Controller
     	$old = $portfolio->toArray();
     	if(view()->exists('admin.portfolios_edit')){
     		$data = [
-    				'title'=>'Редактирование портфолио -'.$old['name'],
+    				'title'=>'Редактирование портфолио - '.$old['name'],
     				'data'=> $old
     				];
     		return view('admin.portfolios_edit',$data);
