@@ -9,9 +9,9 @@ use App\Portfolio;
 
 class PortfoliosAddController extends Controller
 {
-    public function execute(Request $request){
-
-    	if($request->isMethod('post')){
+    public function execute(Request $request)
+    {
+    	if ($request->isMethod('post')) {
 
     		$input = $request->except('_token');
 
@@ -25,32 +25,31 @@ class PortfoliosAddController extends Controller
 				'filter'=>'required'
     		], $massages);
 
-    		if($validator->fails()){
+    		if ($validator->fails()) {
     			return redirect()->route('portfoliosAdd')->withErrors($validator)->withInput();
     		}
 
-    		if($request->hasFile('images')){
+    		if ($request->hasFile('images')) {
 	    		$file = $request->file('images');
 	    		$input['images'] = $file->getClientOriginalName();
-	    		/*копируем загружаемый файл в директорию /assets/img*/
 	    		$file->move(public_path().'/assets/img', $input['images']);
 	    	}
 
 	    	$portfolio = new Portfolio();
 
 	    	$portfolio->fill($input);
-	    	if($portfolio->save()){
-	    		return redirect('admin')->with('status','Портфолио добавлено');
+	    	if ($portfolio->save() {
+	    		return redirect('admin')->with('status', 'Портфолио добавлено');
 	    	}
-
     	}
 
-		if(view()-> exists('admin.portfolios_add')){
+		if (view()->exists('admin.portfolios_add')) {
 			$data = [
-					'title' =>'Новое портфолио'
-					];
-		return view('admin.portfolios_add',$data);
+				'title' =>'Новое портфолио'
+			];
+		return view('admin.portfolios_add', $data);
+		} else {
+			abort(404);
 		}
-		abort(404);
 	}
 }

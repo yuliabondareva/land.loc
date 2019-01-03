@@ -9,9 +9,9 @@ use App\Service;
 
 class ServicesAddController extends Controller
 {
-    public function execute(Request $request){
-
-    	if($request->isMethod('post')){
+    public function execute(Request $request)
+    {
+    	if ($request->isMethod('post')) {
 
     		$input = $request->except('_token');
 
@@ -25,32 +25,31 @@ class ServicesAddController extends Controller
 				'icon'=>'required'
     		], $massages);
 
-    		if($validator->fails()){
+    		if ($validator->fails()) {
     			return redirect()->route('servicesAdd')->withErrors($validator)->withInput();
     		}
 
-    		if($request->hasFile('images')){
+    		if ($request->hasFile('images')) {
 	    		$file = $request->file('images');
 	    		$input['images'] = $file->getClientOriginalName();
-	    		/*копируем загружаемый файл в директорию /assets/img*/
 	    		$file->move(public_path().'/assets/img', $input['images']);
 	    	}
 
 	    	$service = new Service();
 
 	    	$service->fill($input);
-	    	if($service->save()){
-	    		return redirect('admin')->with('status','Сервис добавлен');
+	    	if ($service->save()) {
+	    		return redirect('admin')->with('status', 'Сервис добавлен');
 	    	}
-
     	}
 
-		if(view()-> exists('admin.services_add')){
+		if (view()->exists('admin.services_add')) {
 			$data = [
-					'title' =>'Новый сервис'
-					];
+				'title' =>'Новый сервис'
+			];
 		return view('admin.services_add',$data);
+		} else {
+			abort(404);
 		}
-		abort(404);
 	}
 }

@@ -26,7 +26,7 @@
     <section id="{{$page->alias}}"><!--Aboutus-->
       <div class="inner_wrapper">
         <div class="container">
-          <h2>{{ $page->name}}</h2>
+          <h2>{{$page->name}}</h2>
           <div class="inner_section">
         <div class="row">
             <div class="pull-right col-lg-4 col-md-4 col-sm-4 col-xs-12">

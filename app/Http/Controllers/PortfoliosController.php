@@ -7,15 +7,18 @@ use App\Portfolio;
 
 class PortfoliosController extends Controller
 {
-    public function execute(){
-		if(view()-> exists('admin.portfolios')){
+    public function execute()
+    {
+		if (view()-> exists('admin.portfolios')) {
 			$portfolios = Portfolio::all();
 			$data = [
-					'title' =>'Портфолио',
-					'portfolios' => $portfolios
-					];
-		return view('admin.portfolios',$data);
+				'title'=>'Портфолио',
+				'portfolios'=>$portfolios
+			];
+		return view('admin.portfolios', $data);
+
+		} else {
+			abort(404);
 		}
-		abort(404);
 	}
 }

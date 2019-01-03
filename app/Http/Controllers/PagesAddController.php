@@ -9,12 +9,10 @@ use App\Page;
 
 class PagesAddController extends Controller
 {
-    public function execute(Request $request){
-
-    	if($request->isMethod('post')){
-
+    public function execute(Request $request)
+    {
+    	if ($request->isMethod('post')) {
     		$input = $request->except('_token');
-
     		$massages = [
     			'required'=>"Поле :attribute обязательно к заполнению",
     			'unique'=>"Поле :attribute должно быть уникальным"
@@ -26,32 +24,31 @@ class PagesAddController extends Controller
 				'text'=>'required'
     		], $massages);
 
-    		if($validator->fails()){
+    		if ($validator->fails()) {
     			return redirect()->route('pagesAdd')->withErrors($validator)->withInput();
     		}
 
-    		if($request->hasFile('images')){
+    		if ($request->hasFile('images')) {
 	    		$file = $request->file('images');
 	    		$input['images'] = $file->getClientOriginalName();
-	    		/*копируем загружаемый файл в директорию /assets/img*/
 	    		$file->move(public_path().'/assets/img', $input['images']);
 	    	}
 
 	    	$page = new Page();
-
 	    	$page->fill($input);
-	    	if($page->save()){
-	    		return redirect('admin')->with('status','Страница добавлена');
+	    	
+	    	if ($page->save()) {
+	    		return redirect('admin')->with('status', 'Страница добавлена');
 	    	}
-
     	}
 
-		if(view()-> exists('admin.pages_add')){
+		if (view()->exists('admin.pages_add')) {
 			$data = [
-					'title' =>'Новая страница'
-					];
-		return view('admin.pages_add',$data);
+				'title'=>'Новая страница'
+			];
+			return view('admin.pages_add', $data);
+		} else {
+			abort(404);
 		}
-		abort(404);
 	}
 }
